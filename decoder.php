@@ -15,21 +15,22 @@ $decoderData = $decoderPDO->fetchAll(PDO::FETCH_ASSOC);
 
 if(sizeof($_POST) != 0)
 {
+    var_dump($_POST);
 	$updatePDO = $pdo->prepare("UPDATE decoder SET `naam` = :naam, `producent` = :producent, `artiekelnummer` = :artiekelnummer, `numFuncties` = :numFuncties, `functieDecoder` = :functieDecoder, `numLogicFuncties` = :numLogicFuncties, `functiesMappable` = :functiesMappable, `effecten` = :effecten, `geluid` = :geluid WHERE `id` = :id;");
 	$updatePDO->bindvalue(":id", $_POST['id']);
 	$updatePDO->bindvalue(":naam", $_POST['naam']);
-	$updatePDO->bindvalue(":producent", $_POST['producent']);
-	$updatePDO->bindvalue(":artiekelnummer", $_POST['artiekelnummer']);
-	$updatePDO->bindvalue(":numFuncties", $_POST['numFuncties']);
-	$updatePDO->bindvalue(":functieDecoder", isset($_POST['functieDecoder']));
-	$updatePDO->bindvalue(":numLogicFuncties", $_POST['numLogicFuncties']);
-	$updatePDO->bindvalue(":functiesMappable", isset($_POST['functiesMappable']));
-	$updatePDO->bindvalue(":effecten", isset($_POST['effecten']));
-	$updatePDO->bindvalue(":geluid", isset($_POST['geluid']));
-
+	$updatePDO->bindvalue(":producent", $_POST['producent'] == ""?null:$_POST['artiekelnummer']);
+	$updatePDO->bindvalue(":artiekelnummer", $_POST['artiekelnummer'] == ""?null:$_POST['artiekelnummer']);
+	$updatePDO->bindvalue(":numFuncties", $_POST['numFuncties'] == ""?null:$_POST['numFuncties']);
+	$updatePDO->bindvalue(":functieDecoder", (isset($_POST['functieDecoder'])?1:0));
+	$updatePDO->bindvalue(":numLogicFuncties", $_POST['numLogicFuncties'] == ""?null:$_POST['numLogicFuncties']);
+	$updatePDO->bindvalue(":functiesMappable", isset($_POST['functiesMappable'])?1:0);
+	$updatePDO->bindvalue(":effecten", isset($_POST['effecten'])?1:0);
+	$updatePDO->bindvalue(":geluid", isset($_POST['geluid'])?1:0);
+try{
 	$updatePDO->execute();
-
-	header("Location: index.php");
+} catch(Exception $e){echo $e;}
+	//header("Location: index.php");
 } else
 {?>
 
@@ -71,7 +72,7 @@ if(sizeof($_POST) != 0)
 			$decoder = $decoderData[0];
 			if(isset($decoder))
 			{
-				$form = '<form action="decoder.php" method="post">';
+				$form = '<form action="./decoder.php" method="post">';
 				$form .= 'ID:<br><input type="number" name="id" value="' . $decoder['id'] . '" readonly><br>';
 				$form .='Naam:<br><input maxlength="200" name="naam" type="text" value="' . $decoder['naam'] . '"><br>';
 
