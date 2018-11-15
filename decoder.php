@@ -27,10 +27,13 @@ if(sizeof($_POST) != 0)
 	$updatePDO->bindvalue(":functiesMappable", isset($_POST['functiesMappable'])?1:0);
 	$updatePDO->bindvalue(":effecten", isset($_POST['effecten'])?1:0);
 	$updatePDO->bindvalue(":geluid", isset($_POST['geluid'])?1:0);
-try{
-	$updatePDO->execute();
-} catch(Exception $e){echo $e;}
-	//header("Location: index.php");
+    try{
+	       $updatePDO->execute();
+           header("Location: index.php");
+       } catch(Exception $e)
+       {
+           echo $e;
+       }
 } else
 {?>
 

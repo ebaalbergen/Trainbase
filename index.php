@@ -7,10 +7,10 @@ if(isset($_GET['id']))
 
 if(isset($_GET['decoder']))
 	$decoder = $_GET['decoder'];
-	
+
 if(isset($_GET['categorie']))
 	$categorie = $_GET['categorie'];
-	
+
 $voertuigPDO = $pdo->query("SELECT * FROM voertuig");
 $voertuigData = $voertuigPDO->fetchAll(PDO::FETCH_ASSOC);
 
@@ -30,7 +30,7 @@ if(isset($_GET['nieuwvoertuig']) || isset($_GET['nieuwedecoder']))
 		$nieuwVoertuigPDO = $pdo->prepare("INSERT INTO voertuig (naam) VALUES (:naam)");
 		$nieuwVoertuigPDO->bindValue(":naam", "Nieuw Voertuig");
 		$nieuwVoertuigPDO->execute();
-		
+
 		header("Location: ./index.php");
 	} else
 	{
@@ -40,47 +40,53 @@ if(isset($_GET['nieuwvoertuig']) || isset($_GET['nieuwedecoder']))
 
 		header("Location: ./index.php");
 	}
-}	
-	
+}
+
 if(sizeof($_POST) != 0)
 {
 	$updatePDO = $pdo->prepare("UPDATE voertuig SET drierail = :drierail, bagageWagen = :bagageWagen, geluid = :geluid, naam = :naam, soort = :soort, nummer = :nummer, numAsses = :numAsses, gewichtGrootSpoor = :gewichtGrootSpoor, gewichtModelSpoor = :gewichtModelSpoor, type = :type, omschrijving = :omschrijving, kleur = :kleur, lengteGrootSpoor = :lengteGrootSpoor, tijdperk = :tijdperk, staat = :staat, projectAfgerond = :projectAfgerond, producent = :producent, artiekelnummer = :artiekelnummer, toegelatenLanden = :toegelatenLanden, doos = :doos, digitaal = :digitaal, adres = :adres, decoderType = :decoderType, brandstof = :brandstof, vermogen = :vermogen, vrachtType = :vrachtType, maximaalGewicht = :maximaalGewicht, numPasagiers = :numPasagiers WHERE id = :id");
 	$updatePDO->bindvalue(":id", $_POST['id']);
 	$updatePDO->bindvalue(":naam", $_POST['naam']);
-	$updatePDO->bindvalue(":soort", $_POST['soort']);
-	$updatePDO->bindvalue(":nummer", $_POST['nummer']);
-	$updatePDO->bindvalue(":numAsses", $_POST['numAsses']);
-	$updatePDO->bindvalue(":gewichtGrootSpoor", $_POST['gewichtGrootSpoor']);
-	$updatePDO->bindvalue(":gewichtModelSpoor", $_POST['gewichtModelSpoor']);
-	$updatePDO->bindvalue(":type", $_POST['type']);
-	$updatePDO->bindvalue(":omschrijving", $_POST['omschrijving']);
-	$updatePDO->bindvalue(":kleur", $_POST['kleur']);
-	$updatePDO->bindvalue(":lengteGrootSpoor", $_POST['lengteGrootSpoor']);
-	$updatePDO->bindvalue(":tijdperk", $_POST['tijdperk']);
-	$updatePDO->bindvalue(":staat", $_POST['staat']);
-	
-	$updatePDO->bindvalue(":producent", $_POST['producent']);
-	$updatePDO->bindvalue(":artiekelnummer", $_POST['artiekelnummer']);
-	$updatePDO->bindvalue(":toegelatenLanden", $_POST['toegelatenLanden']);
-	$updatePDO->bindvalue(":doos", $_POST['doos']);
-	
-	$updatePDO->bindvalue(":adres", $_POST['adres']);
-	$updatePDO->bindvalue(":decoderType", $_POST['decoderType']);
-	$updatePDO->bindvalue(":brandstof", $_POST['brandstof']);
-	$updatePDO->bindvalue(":vermogen", $_POST['vermogen']);
-	$updatePDO->bindvalue(":vrachtType", $_POST['vrachtType']);
-	$updatePDO->bindvalue(":maximaalGewicht", $_POST['maximaalGewicht']);
-	$updatePDO->bindvalue(":numPasagiers", $_POST['numPasagiers']);
-	
-	$updatePDO->bindvalue(":digitaal", isset($_POST['digitaal']));
-	$updatePDO->bindvalue(":projectAfgerond", isset($_POST['projectAfgerond']));
-	$updatePDO->bindvalue(":geluid", isset($_POST['projectAfgerond']));
-	$updatePDO->bindValue(":bagageWagen", isset($_POST['bagageWagen']));
-	$updatePDO->bindValue(":drierail", isset($_POST['drierail']));
-	
-	$updatePDO->execute();
-	
-	header("Location: index.php");
+	$updatePDO->bindvalue(":soort", $_POST['soort'] == ""?null:$_POST['soort']);
+	$updatePDO->bindvalue(":nummer", $_POST['nummer'] == ""?null:$_POST['nummer']);
+	$updatePDO->bindvalue(":numAsses", $_POST['numAsses'] == ""?null:$_POST['numAsses']);
+	$updatePDO->bindvalue(":gewichtGrootSpoor", $_POST['gewichtGrootSpoor'] == ""?null:$_POST['gewichtGrootSpoor']);
+	$updatePDO->bindvalue(":gewichtModelSpoor", $_POST['gewichtModelSpoor'] == ""?null:$_POST['gewichtModelSpoor']);
+	$updatePDO->bindvalue(":type", $_POST['type'] == ""?null:$_POST['type']);
+	$updatePDO->bindvalue(":omschrijving", $_POST['omschrijving'] == ""?null:$_POST['omschrijving']);
+	$updatePDO->bindvalue(":kleur", $_POST['kleur'] == ""?null:$_POST['kleur']);
+	$updatePDO->bindvalue(":lengteGrootSpoor", $_POST['lengteGrootSpoor'] == ""?null:$_POST['lengteGrootSpoor']);
+	$updatePDO->bindvalue(":tijdperk", $_POST['tijdperk'] == ""?null:$_POST['tijdperk']);
+	$updatePDO->bindvalue(":staat", $_POST['staat'] == ""?null:$_POST['staat']);
+
+	$updatePDO->bindvalue(":producent", $_POST['producent'] == ""?null:$_POST['producent']);
+	$updatePDO->bindvalue(":artiekelnummer", $_POST['artiekelnummer'] == ""?null:$_POST['artiekelnummer']);
+	$updatePDO->bindvalue(":toegelatenLanden", $_POST['toegelatenLanden'] == ""?null:$_POST['toegelatenLanden']);
+	$updatePDO->bindvalue(":doos", $_POST['doos'] == ""?null:$_POST['doos']);
+
+	$updatePDO->bindvalue(":adres", $_POST['adres'] == ""?null:$_POST['adres']);
+	$updatePDO->bindvalue(":decoderType", $_POST['decoderType'] == ""?null:$_POST['decoderType']);
+	$updatePDO->bindvalue(":brandstof", $_POST['brandstof'] == ""?null:$_POST['brandstof']);
+	$updatePDO->bindvalue(":vermogen", $_POST['vermogen'] == ""?null:$_POST['vermogen']);
+	$updatePDO->bindvalue(":vrachtType", $_POST['vrachtType'] == ""?null:$_POST['vrachtType']);
+	$updatePDO->bindvalue(":maximaalGewicht", $_POST['maximaalGewicht'] == ""?null:$_POST['maximaalGewicht']);
+	$updatePDO->bindvalue(":numPasagiers", $_POST['numPasagiers'] == ""?null:$_POST['numPasagiers']);
+
+	$updatePDO->bindvalue(":digitaal", isset($_POST['digitaal'])?1:0);
+	$updatePDO->bindvalue(":projectAfgerond", isset($_POST['projectAfgerond'])?1:0);
+	$updatePDO->bindvalue(":geluid", isset($_POST['projectAfgerond'])?1:0);
+	$updatePDO->bindValue(":bagageWagen", isset($_POST['bagageWagen'])?1:0);
+	$updatePDO->bindValue(":drierail", isset($_POST['drierail'])?1:0);
+
+    try
+    {
+        $updatePDO->execute();
+        header("Location: index.php");
+    } catch(Exception $e)
+    {
+        echo $e;
+    }
+
 } else
 {?>
 
@@ -88,7 +94,7 @@ if(sizeof($_POST) != 0)
 <html>
 	<head>
 		<title>
-			<?php 
+			<?php
 			$titel = "TrainBase ";
 			if(isset($id) || isset($categorie))
 			{
@@ -128,13 +134,13 @@ if(sizeof($_POST) != 0)
 			Nieuwe Decoder Toevoegen
 		</a>
 		<?php
-		
+
 		if((!isset($id)) || (isset($categorie)))
 		{
 			if(isset($categorie))
-				echo "<p>Selectie van de categorie: " . $categorie . "</p>"; 
+				echo "<p>Selectie van de categorie: " . $categorie . "</p>";
 		?>
-		
+
 		<table class="sortable">
 			<thead>
 				<tr>
@@ -162,15 +168,15 @@ if(sizeof($_POST) != 0)
 				</tr>
 			</thead>
 			<tbody>
-		
+
 		<?php
 		}
-		
+
 		if(!(isset($id) || isset($categorie)))
 		{
 			foreach($voertuigData as $voertuig)
 			{
-				$echoData = "<tr>";				
+				$echoData = "<tr>";
 				$echoData .= "<td>" . $voertuig['id'] . "</td>";
 				$echoData .= "<td><a href=\"index.php?id=" . $voertuig['id'] . "\">" . $voertuig['naam'] . "</a></td>";
 				$echoData .= "<td>" . $voertuig['nummer'] . "</td>";
@@ -191,7 +197,7 @@ if(sizeof($_POST) != 0)
 			}
 			$voertuig = $geselecteerdVoertuig;
 			if(isset($geselecteerdVoertuig))
-			{	
+			{
 				$form = '<form action="index.php" method="post">';
 				$form .= 'ID:<br><input name="id" value="' . $voertuig['id'] . '" readonly><br>';
 				$form .='Naam:<br><input maxlength="250" name="naam" type="text" value="' . $voertuig['naam'] . '"><br>';
@@ -281,7 +287,7 @@ if(sizeof($_POST) != 0)
 				}
 
 				$form .= "</select><br>";
-	
+
 				switch($voertuig['brandstof'])
 				{
 				case "Diesel":
@@ -329,10 +335,10 @@ if(sizeof($_POST) != 0)
 					$voertuigSelectie[$itterator] = $voertuig;
 				$itterator++;
 			}
-			
+
 			foreach($voertuigSelectie as $voertuig)
 			{
-				$echoData = "<tr>";				
+				$echoData = "<tr>";
 				$echoData .= "<td>" . $voertuig['id'] . "</td>";
 				$echoData .= "<td><a href=\"index.php?id=" . $voertuig['id'] . "\">" . $voertuig['naam'] . "</a></td>";
 				$echoData .= "<td>" . $voertuig['nummer'] . "</td>";
@@ -343,25 +349,25 @@ if(sizeof($_POST) != 0)
 
 				echo $echoData;
 			}
-			
+
 		} else
 		{
 			echo "<h3>Fout 2!</h3><p>Kon geen data laden.</p>";
 		}
-		
+
 		if((!isset($id)) || (isset($categorie)))
 		{?>
 			</tbody>
 		</table>
 		<?php
 		}
-		
+
 		if((!isset($id)) || (isset($categorie)))
 		{
 			if(isset($categorie))
-				echo "<p>Selectie van de categorie: " . $categorie . "</p>"; 
+				echo "<p>Selectie van de categorie: " . $categorie . "</p>";
 		?>
-		
+
 		<table class="sortable">
 			<thead>
 				<tr>
@@ -389,15 +395,15 @@ if(sizeof($_POST) != 0)
 				</tr>
 			</thead>
 			<tbody>
-		
+
 		<?php
 		}
-		
+
 		if(!(isset($id) || isset($categorie)))
 		{
 			foreach($decoderData as $decoder)
 			{
-				$echoData = "<tr>";				
+				$echoData = "<tr>";
 				$echoData .= "<td>" . $decoder['id'] . "</td>";
 				$echoData .= "<td><a href=\"decoder.php?id=" . $decoder['id'] . "\">" . $decoder['naam'] . "</a></td>";
 				$echoData .= "<td>" . $decoder['producent'] . "</td>";
@@ -414,7 +420,7 @@ if(sizeof($_POST) != 0)
 			if(!isset($id))
 				echo "<h3>Fout 3!</h3><p>Kon geen data laden.</p>";
 		}
-		
+
 		if((!isset($id)) || (isset($categorie)))
 		{?>
 			</tbody>
